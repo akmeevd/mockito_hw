@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 
 @ExtendWith(MockitoExtension.class)
 public class DepartmentServiceTest {
@@ -33,47 +32,51 @@ public class DepartmentServiceTest {
         employee1 = new Employee("roman", "romanov", 1, 10000);
         employee2 = new Employee("ivan", "ivanov", 1, 5000);
         employee3 = new Employee("egor", "egorov", 3, 2500);
-        employeeService.addEmployee(employee1);
-        employeeService.addEmployee(employee2);
-        employeeService.addEmployee(employee3);
+        Mockito.when(employeeService.getEmployees()).thenReturn(List.of(employee1, employee2, employee3));
     }
 
     @Test
     public void getEmployeesByDepartment() {
-        List<Employee> expected = employeeService.getEmployees();
-        List<Employee> actual = new ArrayList<>();
-        actual.add(employee1);
-        actual.add(employee2);
-        actual.add(employee3);
-        Assertions.assertEquals(expected, actual);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        Assertions.assertEquals(employees, departmentService.getEmployeesByDepartment(1));
     }
 
     @Test
     public void getSumSalaryByDepartment() {
-        Mockito.when(departmentService.getSumSalaryByDepartment(anyInt())).thenReturn(1000L);
-        Assertions.assertEquals(departmentService.getSumSalaryByDepartment(1), 1000);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        Assertions.assertEquals(employees.get(0).getSalary() +
+                        employees.get(1).getSalary(),
+                departmentService.getSumSalaryByDepartment(1));
     }
 
     @Test
     public void getMinSalaryByDepartment() {
-        Mockito.when(departmentService.getMinSalaryByDepartment(anyInt())).thenReturn(1000L);
-        Assertions.assertEquals(departmentService.getMinSalaryByDepartment(1), 1000);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        Assertions.assertEquals(Math.min(employees.get(0).getSalary(), employees.get(1).getSalary()),
+                departmentService.getMinSalaryByDepartment(1));
     }
 
     @Test
     public void getMaxSalaryByDepartment() {
-        Mockito.when(departmentService.getMaxSalaryByDepartment(anyInt())).thenReturn(10000L);
-        Assertions.assertEquals(departmentService.getMaxSalaryByDepartment(1), 10000);
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee1);
+        employees.add(employee2);
+        Assertions.assertEquals(Math.max(employees.get(0).getSalary(), employees.get(1).getSalary()),
+                departmentService.getMaxSalaryByDepartment(1));
     }
 
     @Test
     public void getEmployeesInDepartment() {
-        departmentService = new DepartmentService(employeeService);
-        HashMap<Integer, Set<Employee>> expected = departmentService.getEmployeesInDepartment(1);
-        Set<Employee> employees = new HashSet<>(Set.of(employee1, employee2));
-        HashMap<Integer, Set<Employee>> actual = new HashMap<>();
-        actual.put(1, employees);
-        Assertions.assertEquals(expected, actual);
+        Set<Employee> employeesSet = new HashSet<>(Set.of(employee1, employee2));
+        HashMap<Integer, Set<Employee>> employees = new HashMap<>();
+        employees.put(1, employeesSet);
+        Assertions.assertEquals(employees, departmentService.getEmployeesInDepartment(1));
     }
 }
 

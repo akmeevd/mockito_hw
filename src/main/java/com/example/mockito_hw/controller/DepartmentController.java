@@ -4,7 +4,9 @@ import com.example.mockito_hw.model.Employee;
 import com.example.mockito_hw.service.DepartmentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/department")
@@ -33,5 +35,10 @@ public class DepartmentController {
     @GetMapping("/{id}/salary/max")
     public long getMaxSalaryByDepartment(@PathVariable("id") int department) {
         return this.departmentService.getMaxSalaryByDepartment(department);
+    }
+
+    @GetMapping("/employees")
+    public HashMap<Integer, Set<Employee>> getEmployeesInDepartment(int department) {
+        return departmentService.getEmployeesInDepartment(department);
     }
 }

@@ -12,8 +12,6 @@ public class EmployeeServiceTest {
     private Employee employee1;
     private Employee employee2;
     private Employee employee3;
-    private int department;
-    private int id;
 
     @BeforeEach
     public void setUp() {
@@ -45,8 +43,8 @@ public class EmployeeServiceTest {
     @Test
     public void shouldFindEmployeeByDepartment() {
         List<Employee> expected = employeeService.getEmployees();
-        List<Employee> actual = employeeService.findEmployeeByDepartment(department);
-        Assertions.assertTrue(expected.containsAll(actual));
+        Employee employee = employeeService.findEmployeeByDepartment(1);
+        Assertions.assertTrue(expected.contains(employee));
     }
 
     @Test

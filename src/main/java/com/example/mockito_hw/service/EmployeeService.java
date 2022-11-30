@@ -28,17 +28,21 @@ public class EmployeeService {
     }
 
     public Employee findEmployeeById(int id) {
-        Employee employeeReturn = null;
         for (Employee employee : employees) {
             if (employee.getId() == id) {
-                employeeReturn = employee;
+                return employee;
             }
         }
-        return employeeReturn;
+        return null;
     }
 
-    public List<Employee> findEmployeeByDepartment(int department) {
-        return employees.stream().filter(s -> s.getDepartment() == department).collect(Collectors.toList());
+    public Employee findEmployeeByDepartment(int department) {
+        for (Employee employee : employees) {
+            if (employee.getDepartment() == department) {
+                return employee;
+            }
+        }
+        return null;
     }
 
     public List<Employee> getEmployees() {

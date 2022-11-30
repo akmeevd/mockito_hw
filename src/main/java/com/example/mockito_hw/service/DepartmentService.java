@@ -16,7 +16,8 @@ public class DepartmentService {
     }
 
     public List<Employee> getEmployeesByDepartment(int department) {
-        return employeeService.findEmployeeByDepartment(department);
+        return employeeService.getEmployees().stream().filter(s -> s.getDepartment() == department).collect(Collectors.toList());
+//        return employeeService.findEmployeeByDepartment(department);
     }
 
     public long getSumSalaryByDepartment(int department) {
